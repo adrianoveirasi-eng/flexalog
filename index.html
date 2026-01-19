@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexa - App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --brand-orange: #f58220;
+            --brand-dark: #4a4a4a;
+            --bg-gray: #f5f5f5;
+            --text-sub: #6c757d;
+            --input-border: #e0e0e0;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 25px;
+            position: relative;
+        }
+
+        /* Controle de Telas (Views) */
+        .view {
+            display: none; /* Escondido por padrão */
+            width: 100%;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .view.active {
+            display: block; /* Mostra apenas a tela ativa */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ESTILOS DA TELA INICIAL --- */
+        h1 { color: var(--brand-dark); font-size: 26px; font-weight: 700; margin-bottom: 35px; text-align: center; }
+
+        .option-card {
+            display: flex;
+            align-items: center;
+            padding: 22px;
+            border-radius: 18px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+
+        .card-gray { background-color: var(--bg-gray); }
+        .card-white { background-color: #fff; border: 1px solid var(--input-border); }
+        .option-card:hover { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+
+        .icon-box { margin-right: 18px; color: var(--brand-orange); }
+        .content h2 { font-size: 18px; color: var(--brand-dark); font-weight: 600; }
+        .content p { font-size: 14px; color: var(--text-sub); }
+
+        /* --- ESTILOS DO FORMULÁRIO (LOGIN/CADASTRO) --- */
+        .logo-header { text-align: center; margin-bottom: 30px; font-size: 32px; font-weight: 900; letter-spacing: -1.5px; }
+        .logo-header span { color: var(--brand-orange); }
+
+        .tabs { display: flex; border-bottom: 2px solid #eee; margin-bottom: 25px; }
+        .tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; color: var(--text-sub); font-weight: 600; transition: 0.3s; }
+        .tab.active { color: #8b5cf6; border-bottom: 2px solid #8b5cf6; margin-bottom: -2px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 700; color: var(--brand-dark); margin-bottom: 6px; }
+        input { width: 100%; padding: 14px; border: 1px solid var(--input-border); border-radius: 10px; outline: none; transition: 0.3s; font-size: 15px; }
+        input:focus { border-color: var(--brand-orange); }
+
+        .btn-main {
+            width: 100%;
+            background: var(--brand-orange);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none !important; }
+
+        .footer { margin-top: 60px; text-align: center; }
+        .logo-footer { font-size: 22px; font-weight: 900; color: var(--brand-dark); }
+        .logo-footer span { color: var(--brand-orange); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <section id="view-inicio" class="view active">
+            <h1>O que você deseja</h1>
+            
+            <div class="option-card card-gray" onclick="irParaCadastro('loja')">
+                <div class="icon-box"><i data-lucide="store" size="32"></i></div>
+                <div class="content">
+                    <h2>Enviar pacotes</h2>
+                    <p>Conheça os serviços de entrega</p>
+                </div>
+            </div>
+
+            <div class="option-card card-white" onclick="irParaCadastro('entrega')">
+                <div class="icon-box"><i data-lucide="truck" size="32"></i></div>
+                <div class="content">
+                    <h2>Fazer entregas</h2>
+                    <p>Você entrega pela flexa</p>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="logo-footer">FLEX<span>A</span></div>
+                <p style="font-size: 12px; color: var(--text-sub); margin-top: 5px;">Entregas rápida e segura</p>
+            </div>
+        </section>
+
+        <section id="view-auth" class="view">
+            <div class="logo-header">FLEX<span>A</span></div>
+
+            <div class="tabs">
+                <div id="tab-entrar" class="tab active" onclick="alternarAuth('entrar')">Entrar</div>
+                <div id="tab-cadastrar" class="tab" onclick="alternarAuth('cadastrar')">Cadastre-se</div>
+            </div>
+
+            <form id="form-cadastrar" class="hidden">
+                <div class="form-group">
+                    <label id="label-nome">Nome completo</label>
+                    <input type="text" placeholder="Digite seu nome">
+                </div>
+                <div class="form-group" id="group-cnh">
+                    <label>Número CNH</label>
+                    <input type="text" placeholder="00000000000">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" placeholder="••••••••">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar a senha</label>
+                    <input type="password" placeholder="Repita a senha">
+                </div>
+                <button type="button" class="btn-main">Cadastrar</button>
+            </form>
+
+            <form id="form-entrar">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" placeholder="Login de acesso">
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" placeholder="Sua senha">
+                </div>
+                <button type="button" class="btn-main">Entrar</button>
+                <p style="text-align:center; margin-top:20px; font-size:13px; color:var(--text-sub); cursor:pointer" onclick="navegar('view-inicio')">← Voltar para o início</p>
+            </form>
+        </section>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Função principal de navegação (Estilo Bubble: Show/Hide)
+        function navegar(idTela) {
+            // Esconde todas as telas
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            // Mostra a tela escolhida
+            document.getElementById(idTela).classList.add('active');
+        }
+
+        // Lógica específica para quando clica nos cards da tela inicial
+        function irParaCadastro(tipo) {
+            navegar('view-auth');
+            
+            const labelNome = document.getElementById('label-nome');
+            const groupCNH = document.getElementById('group-cnh');
+
+            if (tipo === 'loja') {
+                labelNome.innerText = "Nome da loja";
+                groupCNH.classList.add('hidden');
+            } else {
+                labelNome.innerText = "Nome completo";
+                groupCNH.classList.remove('hidden');
+            }
+            // Por padrão, sempre abre na aba "Entrar" como você pediu antes
+            alternarAuth('entrar');
+        }
+
+        // Alterna entre Entrar e Cadastrar dentro da mesma tela
+        function alternarAuth(modo) {
+            const fCad = document.getElementById('form-cadastrar');
+            const fEnt = document.getElementById('form-entrar');
+            const tCad = document.getElementById('tab-cadastrar');
+            const tEnt = document.getElementById('tab-entrar');
+
+            if (modo === 'cadastrar') {
+                fCad.classList.remove('hidden');
+                fEnt.classList.add('hidden');
+                tCad.classList.add('active');
+                tEnt.classList.remove('active');
+            } else {
+                fEnt.classList.remove('hidden');
+                fCad.classList.add('hidden');
+                tEnt.classList.add('active');
+                tCad.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
