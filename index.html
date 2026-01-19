@@ -15,7 +15,7 @@
             --text-main: #0f172a;
             --text-sub: #94a3b8;
             --border-color: #f1f5f9;
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -27,36 +27,110 @@
             align-items: flex-start;
             min-height: 100vh;
             color: var(--text-main);
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container { width: 100%; max-width: 420px; padding: 40px 25px; }
+        .bg-sphere {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 20s infinite alternate;
+        }
+        .sphere-1 { width: 300px; height: 300px; background: var(--brand-orange); top: -100px; right: -100px; }
+        .sphere-2 { width: 250px; height: 250px; background: #3b82f6; bottom: -50px; left: -100px; animation-delay: -5s; }
+
+        @keyframes float {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-30px, 50px); }
+        }
+
+        .container { width: 100%; max-width: 420px; padding: 40px 25px; position: relative; z-index: 1; }
 
         .view { display: none; width: 100%; animation: slideIn 0.4s ease-out; }
         .view.active { display: block; }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        .welcome-text { text-align: center; margin-bottom: 45px; margin-top: 20px; }
+        .welcome-text h1 { font-size: 38px; font-weight: 900; letter-spacing: -2px; margin-bottom: 8px; }
+        .welcome-text span { color: var(--brand-orange); }
+        .welcome-text p { color: var(--text-sub); font-size: 16px; font-weight: 500; }
 
         .option-card {
             display: flex;
             align-items: center;
-            padding: 26px;
-            border-radius: 24px;
-            margin-bottom: 18px;
+            padding: 24px;
+            border-radius: 28px;
+            margin-bottom: 20px;
             cursor: pointer;
-            background: var(--card-white);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
             transition: var(--transition);
         }
+
         .option-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px) scale(1.02);
             border-color: var(--brand-orange);
-            box-shadow: 0 12px 24px rgba(245, 130, 32, 0.1);
+            box-shadow: 0 20px 35px rgba(245, 130, 32, 0.12);
         }
 
+        .icon-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .card-loja .icon-box { background: #fff7ed; color: var(--brand-orange); }
+        .card-entrega .icon-box { background: #eff6ff; color: #3b82f6; }
+
+        .content { flex: 1; }
+        
+        /* AJUSTE RESPONSIVO PARA A TAG NÃO CORTAR O TEXTO */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            gap: 10px;
+        }
+
+        .option-card h2 { font-size: 18px; font-weight: 700; }
+        .option-card p { font-size: 14px; color: var(--text-sub); line-height: 1.4; }
+
+        .badge-card {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #f1f5f9;
+            color: var(--text-sub);
+            white-space: nowrap;
+        }
+
+        .footer-info {
+            text-align: center;
+            margin-top: 40px;
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .footer-info a { color: var(--brand-orange); text-decoration: none; font-weight: 700; }
+
+        /* --- AUTH & FORMS --- */
         .auth-card {
             background: var(--card-white);
             padding: 35px 25px;
@@ -84,27 +158,11 @@
             box-shadow: 0 0 0 4px rgba(245, 130, 32, 0.1);
         }
 
-        .input-wrapper i {
-            flex-shrink: 0;
-            color: var(--text-sub);
-            display: flex;
-            align-items: center;
-        }
-
+        .input-wrapper i { flex-shrink: 0; color: var(--text-sub); display: flex; align-items: center; }
         .input-wrapper i.icon-right { cursor: pointer; }
         .input-wrapper i.icon-right:hover { color: var(--brand-orange); }
 
-        input { 
-            flex: 1;
-            min-width: 0;
-            padding: 18px 0;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            outline: none;
-            /* Font-size em 16px para evitar o zoom automático em dispositivos móveis */
-            font-size: 16px;
-        }
+        input { flex: 1; min-width: 0; padding: 18px 0; background: transparent; border: none; color: var(--text-main); outline: none; font-size: 16px; }
 
         .btn-main {
             width: 100%;
@@ -152,11 +210,7 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-        .divider::before, .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid var(--border-color);
-        }
+        .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-color); }
         .divider:not(:empty)::before { margin-right: .75em; }
         .divider:not(:empty)::after { margin-left: .75em; }
 
@@ -172,20 +226,46 @@
 </head>
 <body>
 
+    <div class="bg-sphere sphere-1"></div>
+    <div class="bg-sphere sphere-2"></div>
+
     <div class="container">
         <section id="view-inicio" class="view active">
-            <h1 style="text-align:center; margin-bottom:40px; font-weight: 800;">O que você deseja</h1>
-            <div class="option-card" onclick="irParaCadastro('loja')">
-                <div style="margin-right:20px; background:#fff7ed; padding:12px; border-radius:14px; color:var(--brand-orange);">
-                    <i data-lucide="store" size="28"></i>
-                </div>
-                <div class="content"><h2>Enviar pacotes</h2><p>Serviços logísticos para sua loja</p></div>
+            <div class="welcome-text">
+                <h1>FLEX<span>A</span></h1>
+                <p>O futuro da sua logística está aqui.</p>
             </div>
-            <div class="option-card" onclick="irParaCadastro('entrega')">
-                <div style="margin-right:20px; background:#fff7ed; padding:12px; border-radius:14px; color:var(--brand-orange);">
-                    <i data-lucide="truck" size="28"></i>
+
+            <div class="option-card card-loja" onclick="irParaCadastro('loja')">
+                <div class="icon-box">
+                    <i data-lucide="store" size="32"></i>
                 </div>
-                <div class="content"><h2>Fazer entregas</h2><p>Seja um entregador parceiro</p></div>
+                <div class="content">
+                    <div class="card-header">
+                        <h2>Enviar pacotes</h2>
+                        <span class="badge-card">Negócios</span>
+                    </div>
+                    <p>Soluções inteligentes para expandir sua loja e entregas.</p>
+                </div>
+            </div>
+
+            <div class="option-card card-entrega" onclick="irParaCadastro('entrega')">
+                <div class="icon-box">
+                    <i data-lucide="truck" size="32"></i>
+                </div>
+                <div class="content">
+                    <div class="card-header">
+                        <h2>Fazer entregas</h2>
+                        <span class="badge-card">Parceiro</span>
+                    </div>
+                    <p>Faça seu próprio horário e aumente sua renda diária.</p>
+                </div>
+            </div>
+
+            <div class="footer-info">
+                Dúvidas sobre o serviço? <a href="#">Fale conosco</a>
+                <br><br>
+                <span style="opacity: 0.5; font-size: 11px;">v1.0.4 - Flexa Logística</span>
             </div>
         </section>
 
@@ -200,35 +280,20 @@
                 <form id="form-cadastrar" class="hidden">
                     <div class="form-group">
                         <label id="label-nome">Nome da loja</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="user" size="20"></i>
-                            <input type="text" id="input-nome" placeholder="Digite o nome da loja">
-                        </div>
+                        <div class="input-wrapper"><i data-lucide="user" size="20"></i><input type="text" id="input-nome" placeholder="Nome da sua loja"></div>
                     </div>
                     <div class="form-group" id="group-cnh">
                         <label>Número CNH</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="file-text" size="20"></i>
-                            <input type="text" placeholder="000.000.000-00">
-                        </div>
+                        <div class="input-wrapper"><i data-lucide="file-text" size="20"></i><input type="text" placeholder="000.000.000-00"></div>
                     </div>
                     <div class="form-group"><label>E-mail</label><div class="input-wrapper"><i data-lucide="mail" size="20"></i><input type="email" placeholder="seu@email.com"></div></div>
                     <div class="form-group">
                         <label>Senha</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="lock" size="20"></i>
-                            <input type="password" id="pass-cad" placeholder="••••••••">
-                            <i data-lucide="eye" class="icon-right" size="20" onclick="togglePass('pass-cad', this)"></i>
-                        </div>
+                        <div class="input-wrapper"><i data-lucide="lock" size="20"></i><input type="password" id="pass-cad" placeholder="••••••••"><i data-lucide="eye" class="icon-right" size="20" onclick="togglePass('pass-cad', this)"></i></div>
                     </div>
                     <button type="button" class="btn-main">Criar Conta</button>
-                    
                     <div class="divider">ou</div>
-                    <button type="button" class="btn-google">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                        Cadastrar com Google
-                    </button>
-
+                    <button type="button" class="btn-google"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">Cadastrar com Google</button>
                     <p class="btn-voltar" onclick="navegar('view-inicio')">← Voltar</p>
                 </form>
 
@@ -236,20 +301,11 @@
                     <div class="form-group"><label>E-mail</label><div class="input-wrapper"><i data-lucide="mail" size="20"></i><input type="email" placeholder="Login de acesso"></div></div>
                     <div class="form-group">
                         <label>Senha</label>
-                        <div class="input-wrapper">
-                            <i data-lucide="lock" size="20"></i>
-                            <input type="password" id="pass-login" placeholder="Sua senha">
-                            <i data-lucide="eye" class="icon-right" size="20" onclick="togglePass('pass-login', this)"></i>
-                        </div>
+                        <div class="input-wrapper"><i data-lucide="lock" size="20"></i><input type="password" id="pass-login" placeholder="Sua senha"><i data-lucide="eye" class="icon-right" size="20" onclick="togglePass('pass-login', this)"></i></div>
                     </div>
                     <button type="button" class="btn-main">Entrar na Flexa</button>
-                    
                     <div class="divider">ou</div>
-                    <button type="button" class="btn-google">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-                        Entrar com Google
-                    </button>
-
+                    <button type="button" class="btn-google"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">Entrar com Google</button>
                     <div style="text-align:center; margin-top:15px;"><a href="javascript:void(0)" onclick="navegar('view-recuperar')" style="color:var(--text-sub); font-size:13px; text-decoration:none; font-weight: 500;">Esqueceu a senha?</a></div>
                     <p class="btn-voltar" onclick="navegar('view-inicio')">← Voltar</p>
                 </form>
